@@ -8,7 +8,7 @@ CREATE TABLE apdata(
 -- TODO: create index on serial and ts?
 
 -- Prevent duplicate insertions.
-CREATE UNIQUE INDEX apdata_unique_idx ON apdata(((data->>'mac')::text), ((data->>'time')::text));
+CREATE UNIQUE INDEX apdata_unique_idx ON apdata((data->>'mac'), (data->>'time'));
 
 CREATE VIEW apdata_latest AS
 SELECT
