@@ -31,7 +31,7 @@ ORDER BY ap, name;
 ```
 SELECT
   ts,
-  (data->'rssi')::int rssi
+  (data->>'rssi')::int rssi
 FROM sta_table
 WHERE data->>'mac'='11:22:33:44:55:66'
 ORDER BY ts;

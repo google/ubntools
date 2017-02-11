@@ -31,14 +31,14 @@ CREATE VIEW radio_table AS
 SELECT
   data->>'hostname' AS ap,
   ts,
-  jsonb_array_elements((data #>> '{radio_table}'::text[])::jsonb) AS data
+  jsonb_array_elements(data->'radio_table') AS data
 FROM apdata;
 
 CREATE VIEW radio_table_latest AS
 SELECT
   ap,
   ts,
-  jsonb_array_elements((data #>> '{radio_table}'::text[])::jsonb) AS data
+  jsonb_array_elements(data->'radio_table') AS data
 FROM apdata_latest;
 
 -- Neighbors.
@@ -46,14 +46,14 @@ CREATE VIEW scan_table AS
 SELECT
   ap,
   ts,
-  jsonb_array_elements((data->>'scan_table')::jsonb) AS data
+  jsonb_array_elements(data->'scan_table') AS data
 FROM radio_table;
 
 CREATE VIEW scan_table_latest AS
 SELECT
   ap,
   ts,
-  jsonb_array_elements((data->>'scan_table')::jsonb) AS data
+  jsonb_array_elements(data->'scan_table') AS data
 FROM radio_table_latest;
 
 -- Networks.
@@ -64,7 +64,7 @@ SELECT a.ap,
 FROM (
   SELECT data->>'hostname' AS ap,
          ts,
-         jsonb_array_elements((data #>> '{vap_table}'::text[])::jsonb) AS data
+         jsonb_array_elements(data->'vap_table') AS data
   FROM apdata
 ) a
 WHERE (a.data ->> 'usage'::text) = 'user'::text;
@@ -76,7 +76,7 @@ SELECT a.ap,
 FROM (
   SELECT ap,
          ts,
-         jsonb_array_elements((data #>> '{vap_table}'::text[])::jsonb) AS data
+         jsonb_array_elements(data->'vap_table') AS data
   FROM apdata_latest
 ) a
 WHERE (a.data ->> 'usage'::text) = 'user'::text;
@@ -87,7 +87,7 @@ SELECT ap,
        ts,
        data ->> 'essid'::text AS essid,
        (data ->> 'channel')::int AS channel,
-       jsonb_array_elements((data ->> 'sta_table'::text)::jsonb) AS data
+       jsonb_array_elements(data->'sta_table') AS data
 FROM vap_table;
 
 CREATE VIEW sta_table_latest AS
@@ -95,7 +95,7 @@ SELECT ap,
        ts,
        data ->> 'essid'::text AS essid,
        (data ->> 'channel')::int AS channel,
-       jsonb_array_elements((data ->> 'sta_table'::text)::jsonb) AS data
+       jsonb_array_elements(data->'sta_table') AS data
 FROM vap_table_latest;
 
 -- Pretty user-friendly queries.
@@ -112,6 +112,22 @@ CREATE VIEW view_clients AS SELECT
   (data->>'tx_rate')::int8/1000 AS uplink,
   (data->>'rx_bytes')::int8+(data->>'tx_bytes')::int8 AS byte_counter
 FROM sta_table_latest
+ORDER BY essid,ap,channel,hostname,mac;
+
+CREATE VIEW view_clients_history AS SELECT
+  ts,
+  essid,
+  ap,
+  channel,
+  data->>'hostname' AS hostname,
+  data->>'mac' AS mac,
+  (data->>'ip')::inet AS ip,
+  (data->>'rssi')::int AS rssi,
+  (data->>'signal')::int AS signal,
+  (data->>'rx_rate')::int8/1000 AS downlink,  -- I think this is not backwards.
+  (data->>'tx_rate')::int8/1000 AS uplink,
+  (data->>'rx_bytes')::int8+(data->>'tx_bytes')::int8 AS byte_counter
+FROM sta_table
 ORDER BY essid,ap,channel,hostname,mac;
 
 CREATE VIEW view_networks AS
@@ -133,7 +149,7 @@ SELECT
   data->>'radio' AS radio,
   CASE data->>'is_11ac' WHEN 'true' THEN TRUE ELSE FALSE END AS ac,
   CASE data->>'has_dfs' WHEN 'true' THEN TRUE ELSE FALSE END AS dfs,
-  jsonb_array_length((data->>'scan_table')::jsonb) AS ssid_count
+  jsonb_array_length(data->'scan_table') AS ssid_count
 FROM radio_table_latest;
 
 CREATE VIEW view_neighbors AS
