@@ -152,6 +152,20 @@ SELECT
   jsonb_array_length(data->'scan_table') AS ssid_count
 FROM radio_table_latest;
 
+CREATE VIEW view_radio_history AS
+SELECT
+  ap,
+  ts,
+  data->>'name' AS name,
+  (data#>>'{athstats,cu_total}')::int AS cu,
+  (data->>'max_txpower')::int AS max_tx,
+  (data->>'min_txpower')::int as min_tx,
+  data->>'radio' AS radio,
+  CASE data->>'is_11ac' WHEN 'true' THEN TRUE ELSE FALSE END AS ac,
+  CASE data->>'has_dfs' WHEN 'true' THEN TRUE ELSE FALSE END AS dfs,
+  jsonb_array_length(data->'scan_table') AS ssid_count
+FROM radio_table;
+
 CREATE VIEW view_neighbors AS
 SELECT
   ap,
