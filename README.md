@@ -1,3 +1,11 @@
+# ubntools
+
+Copyright 2016 Google Inc.
+
+This is not a google product.
+
+Tools to do fun things with ubiquity gear.
+
 ## Interesting queries
 
 
