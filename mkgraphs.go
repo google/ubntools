@@ -1,9 +1,3 @@
-// mkgraphs renders graphs from database.
-//
-// Example run:
-//   ./mkgraphs -dbconnect='host=/var/run/postgresql sslmode=disable'
-package main
-
 // Copyright 2017 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +11,12 @@ package main
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+// mkgraphs renders graphs from database.
+//
+// Example run:
+//   ./mkgraphs -dbconnect='host=/var/run/postgresql sslmode=disable'
+package main
 
 import (
 	"bytes"
