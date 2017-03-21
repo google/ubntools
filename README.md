@@ -46,7 +46,7 @@ $ ./inserter -dbconnect='dbname=ubntools host=/var/run/postgresql sslmode=disabl
 $ psql ubntools
 ubntools=> SELECT * FROM view_neighbors;
     ap    | channel |       bssid       |         essid          | bw | rssi | security | adhoc
---------------+---------+-------------------+------------------------+----+------+----------+-------
+----------+---------+-------------------+------------------------+----+------+----------+-------
   apname  |       6 | 00:8e:f2:aa:aa:aa | virginmediaxxxxxxx     | 20 |   10 | secured  | f
 […]
 ```
