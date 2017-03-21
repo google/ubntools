@@ -6,9 +6,60 @@ This is not a google product.
 
 Tools to do fun things with ubiquity gear.
 
+## HOWTO
+
+### 1. Log in to AP
+
+### 2. Generate SSH key
+
+```
+$ dropbearkey -t rsa -f ~/.ssh/id_dropbear -s 2048
+ssh-rsa AAAA…== admin@apname
+```
+
+### 3. Add this key to server's `~/.ssh/authorized_keys`
+
+### 4. Set up regular data uploads
+
+On the AP, run:
+```
+$ nohub sh -c 'while true; do ./ap-uploader.sh user@server:path/;sleep 600;done'
+```
+
+### 5. Create database
+
+```
+$ createdb ubntools
+$ psql ubntools -f schema.sql
+```
+
+### 6. Import data
+
+```
+$ go build inserter.go
+$ ./inserter -dbconnect='dbname=ubntools host=/var/run/postgresql sslmode=disable' /path/to/*.gz
+```
+
+### 7. Query data
+
+```
+$ psql ubntools
+ubntools=> SELECT * FROM view_neighbors;
+    ap    | channel |       bssid       |         essid          | bw | rssi | security | adhoc
+--------------+---------+-------------------+------------------------+----+------+----------+-------
+  apname  |       6 | 00:8e:f2:aa:aa:aa | virginmediaxxxxxxx     | 20 |   10 | secured  | f
+[…]
+```
+
+### 8. Generate channel utilization graph
+
+```
+$ go build mkgraph.go
+$ ./mkgraph -dbconnect='dbname=ubntools host=/var/run/postgresql sslmode=disable' | gnuplot
+$ mv foo.png /path/to/web/root/or/something/
+```
+
 ## Interesting queries
-
-
 
 ### Current clients
 ```
