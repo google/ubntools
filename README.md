@@ -23,7 +23,7 @@ ssh-rsa AAAA…== admin@apname
 
 On the AP, run:
 ```
-$ nohub sh -c 'while true; do ./ap-uploader.sh user@server:path/;sleep 600;done'
+$ nohup sh -c 'while true; do ./ap-uploader.sh user@server:path/;sleep 600;done'
 ```
 
 ### 5. Create database
