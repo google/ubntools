@@ -26,7 +26,10 @@ On the AP, run:
 $ nohup sh -c 'while true; do ./ap-uploader.sh user@server:path/;sleep 600;done'
 ```
 
-### 5. Create database
+Make sure files are being uploaded to the server every 10 minutes. If it all
+looks good then the AP setup is done. At least until it reboots.
+
+### 5. On server: Create database
 
 ```
 $ createdb ubntools
