@@ -19,6 +19,11 @@ ssh-rsa AAAA…== admin@apname
 
 ### 3. Add this key to server's `~/.ssh/authorized_keys`
 
+Try a one-time upload:
+```
+$ ./ap-uploader.sh user@server:path/
+```
+
 ### 4. Set up regular data uploads
 
 On the AP, run:
