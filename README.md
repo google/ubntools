@@ -19,7 +19,7 @@ ssh-rsa AAAA…== admin@apname
 
 ### 3. Add this key to server's `~/.ssh/authorized_keys`
 
-Try a one-time upload:
+Try a one-time upload by uploading `ap-uploader.sh` to the AP and running:
 ```
 $ ./ap-uploader.sh user@server:path/
 ```
@@ -28,7 +28,7 @@ $ ./ap-uploader.sh user@server:path/
 
 On the AP, run:
 ```
-$ nohup sh -c 'while true; do ./ap-uploader.sh user@server:path/;sleep 600;done'
+$ nohup sh -c 'while true; do ./ap-uploader.sh user@server:path/;sleep 600;done' &
 ```
 
 Make sure files are being uploaded to the server every 10 minutes. If it all
