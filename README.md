@@ -69,6 +69,9 @@ $ mv foo.png /path/to/web/root/or/something/
 
 ## Interesting queries
 
+There are premade views (do `\d` and then `SELECT * from view_…`),
+but you can query more raw data too.
+
 ### Current clients
 ```
 SELECT
