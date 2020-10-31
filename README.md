@@ -13,6 +13,7 @@ Tools to do fun things with ubiquity gear.
 ### 2. Generate SSH key
 
 ```
+$ mkdir ~/.ssh
 $ dropbearkey -t rsa -f ~/.ssh/id_dropbear -s 2048
 ssh-rsa AAAA…== admin@apname
 ```
