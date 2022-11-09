@@ -6,6 +6,8 @@ This is not a google product.
 
 Tools to do fun things with ubiquity gear.
 
+# MOVED TO https://github.com/ThomasHabets/ubntools
+
 ## HOWTO
 
 ### 1. Log in to AP
